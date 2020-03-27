@@ -3,9 +3,15 @@ import * as yup from 'yup';
 import axios from 'axios';
 
 const formSchema = yup.object().shape({
-    name: yup.string().required("Name is a required field."),
-    sauce: yup.boolean().required("You must select a sauce."),
-    toppings: yup.boolean().oneOf([true], "You must select at least one topping."),
+    name: yup.string().required("Name is a required field.").min(2, "Please enter an actual name."),
+    // sauce: yup.boolean().required("You must select a sauce."),
+    bacon: yup.boolean(),
+    sausage: yup.boolean(),
+    pepperoni: yup.boolean(),
+    substitute: yup.boolean(),
+    instructions: yup.string(),
+
+    // toppings: yup.boolean().oneOf([true], "You must select at least one topping."),
 })
 
 
@@ -13,12 +19,12 @@ function Form() {
     const [formState, setFormState] = useState({
         name: '',
         size: '',
-        sauce: '',
-        toppings: {
+        // sauce: '',
+  
             pepperoni: '',
             sausage: '',
             bacon: '',
-        },
+ 
         substitute: '',
         instructions: '',
         quantity: '',
@@ -27,12 +33,12 @@ function Form() {
     const [errors, setErrors] = useState({
         name: '',
         size: '',
-        sauce: '',
-        toppings: {
+        // sauce: '',
+  
             pepperoni: '',
             sausage: '',
             bacon: '',
-        },
+    
         substitute: '',
         instructions: '',
         quantity: '',
@@ -49,6 +55,7 @@ function Form() {
     }, [formState])
 
     const validateName = e => {
+        console.log("e.target.name : ", e.target.name)
         yup.reach(formSchema, e.target.name)
             .validate(e.target.value)
             .then(() => {
@@ -85,11 +92,11 @@ function Form() {
                     name: '',
                     size: '',
                     sauce: '',
-                    toppings: {
+               
                         pepperoni: '',
                         sausage: '',
                         bacon: '',
-                    },
+           
                     substitute: '',
                     instructions: '',
                     quantity: '',
@@ -100,7 +107,7 @@ function Form() {
 
     return (
         <div className="Form">
-            <form>
+            <form onSubmit={formSubmit}>
                 <label htmlFor="name">
                     <input
                         type="text"
@@ -121,26 +128,19 @@ function Form() {
                     </select>
                 </label>
                 <br />
-                <label htmlFor="sauce">
+                {/* <label htmlFor="sauce">
                     Choice of sauce
-                    <input type="radio" name="sauce" id="sauce1" value="red" checked={formState.sauce} onChange={inputChange} />
-                        <label htmlFor="original">Original Red</label>
-                    <input type="radio" name="sauce" id="sauce2" value="ranch" checked={formState.sauce} onChange={inputChange} />
-                        <label htmlFor="garlic">Garlic Ranch</label>
-                    <input type="radio" name="sauce" id="sauce3" value="bbq" checked={formState.sauce} onChange={inputChange} />
-                        <label htmlFor="bbq">BBQ Sauce</label>
-                    <input type="radio" name="sauce" id="sauce4" value="alfredo" checked={formState.sauce} onChange={inputChange} />
-                        <label htmlFor="alfredo">Alfredo</label>
-                </label>
+                    <label htmlFor="original"><input type="radio" name="sauce" id="sauce1" value="red" checked={formState.sauce} onChange={inputChange}/>Original Red</label>
+                    <label htmlFor="garlic"><input type="radio" name="sauce" id="sauce2" value="ranch" checked={formState.sauce} onChange={inputChange}/>Garlic Ranch</label>
+                    <label htmlFor="bbq"><input type="radio" name="sauce" id="sauce3" value="bbq" checked={formState.sauce} onChange={inputChange}/>BBQ Sauce</label>
+                    <label htmlFor="alfredo"><input type="radio" name="sauce" id="sauce4" value="alfredo" checked={formState.sauce} onChange={inputChange}/>Alfredo</label>
+                </label> */}
                 <br />
                 <label htmlFor="toppings">
                     Add Toppings
-                    <input type="checkbox" name="pepperoni" checked={formState.toppings.pepperoni} onChange={inputChange} />
-                        <label htmlFor="pepperoni">Pepperoni</label>
-                    <input type="checkbox" name="sausage" checked={formState.toppings.sausage} onChange={inputChange} />
-                        <label htmlFor="sausage">Sausage</label>
-                    <input type="checkbox" name="bacon" checked={formState.toppings.bacon} onChange={inputChange} />
-                        <label htmlFor="bacon">Bacon</label>    
+                    <label htmlFor="pepperoni"><input type="checkbox" name="pepperoni" checked={formState.pepperoni} onChange={inputChange}/>Pepperoni</label>
+                    <label htmlFor="sausage"><input type="checkbox" name="sausage" checked={formState.sausage} onChange={inputChange}/>Sausage</label>
+                    <label htmlFor="bacon"><input type="checkbox" name="bacon" checked={formState.bacon} onChange={inputChange}/>Bacon</label>    
                 </label>
                 <label htmlFor="substitute">
                     Choice of Substitute
@@ -149,10 +149,13 @@ function Form() {
                 <br />
                 <label htmlFor="instructions">
                     Special instructions
-                    <textarea name="instructions" />
+                    <textarea name="instructions" value={formState.instructions} onChange={inputChange}/>
                 </label>
                 <br />
                 <button disabled={disableButton} type="submit">Submit Order</button>
+
+                <br /><br /><br />
+                <pre>{JSON.stringify(post, null, 2)}</pre>
             </form>
         </div>
     );
