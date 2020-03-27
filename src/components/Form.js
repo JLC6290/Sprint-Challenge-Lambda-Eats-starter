@@ -21,11 +21,11 @@ function Form() {
         size: '',
         // sauce: '',
   
-            pepperoni: '',
-            sausage: '',
-            bacon: '',
+            pepperoni: false,
+            sausage: false,
+            bacon: false,
  
-        substitute: '',
+        substitute: false,
         instructions: '',
         quantity: '',
     })
@@ -39,7 +39,7 @@ function Form() {
             sausage: '',
             bacon: '',
     
-        substitute: '',
+        substitute: false,
         instructions: '',
         quantity: '',
     })
@@ -93,11 +93,11 @@ function Form() {
                     size: '',
                     sauce: '',
                
-                        pepperoni: '',
-                        sausage: '',
-                        bacon: '',
+                        pepperoni: false,
+                        sausage: false,
+                        bacon: false,
            
-                    substitute: '',
+                    substitute: false,
                     instructions: '',
                     quantity: '',
                 })
@@ -109,6 +109,7 @@ function Form() {
         <div className="Form">
             <form onSubmit={formSubmit}>
                 <label htmlFor="name">
+                    Name: 
                     <input
                         type="text"
                         name="name"
@@ -142,6 +143,7 @@ function Form() {
                     <label htmlFor="sausage"><input type="checkbox" name="sausage" checked={formState.sausage} onChange={inputChange}/>Sausage</label>
                     <label htmlFor="bacon"><input type="checkbox" name="bacon" checked={formState.bacon} onChange={inputChange}/>Bacon</label>    
                 </label>
+                <br />
                 <label htmlFor="substitute">
                     Choice of Substitute
                     <input type="checkbox" name="substitute" checked={formState.substitute} onChange={inputChange} />
